@@ -1,19 +1,10 @@
 [project]
 name = "sof-poc1-n8n-fiches"
 version = "0.1.0"
-description = "no comment"
+description = "Add your description here"
 readme = "README.md"
-authors = [
-    { name = "Christian Martiny", email = "christian.martiny@outlook.com" }
-]
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.123.9",
+    "uvicorn[standard]>=0.38.0",
 ]
-
-[project.scripts]
-sof-poc1-n8n-fiches = "sof_poc1_n8n_fiches:main"
-
-[build-system]
-requires = ["uv_build>=0.9.11,<0.10.0"]
-build-backend = "uv_build"
