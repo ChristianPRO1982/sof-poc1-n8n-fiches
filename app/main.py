@@ -1,14 +1,19 @@
-# FastAPI app exposing a health check and a stub HTML to PDF conversion endpoint
-from io import BytesIO
+"""
+FastAPI entrypoint exposing a healthcheck and an endpoint
+to convert HTML content into a PDF file using wkhtmltopdf.
+"""
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel
 
 from .utils import convert_html_to_pdf
 
 
 class HtmlPayload(BaseModel):
+    """
+    Request body model for HTML to PDF conversion.
+    """
+
     html: str
 
 
@@ -16,25 +21,22 @@ app = FastAPI()
 
 
 @app.get("/health")
-def health_check() -> dict:
+def healthcheck():
     return {"status": "ok"}
 
 
-@app.post("/convert")
-def convert(payload: HtmlPayload) -> StreamingResponse:
+@app.post("/html-to-pdf")
+def html_to_pdf(payload: HtmlPayload) -> Response:
+    """
+    Convert provided HTML content to a PDF binary response.
+    """
     try:
         pdf_bytes = convert_html_to_pdf(payload.html)
-    except Exception:
-        raise HTTPException(
-            status_code=500,
-            detail="PDF conversion failed",
-        )
+    except RuntimeError as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
-    pdf_stream = BytesIO(pdf_bytes)
-    pdf_stream.seek(0)
-
-    return StreamingResponse(
-        pdf_stream,
+    return Response(
+        content=pdf_bytes,
         media_type="application/pdf",
-        headers={"Content-Disposition": "inline; filename=document.pdf"},
+        headers={"Content-Disposition": 'attachment; filename=\"document.pdf\"'},
     )

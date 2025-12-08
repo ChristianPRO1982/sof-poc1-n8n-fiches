@@ -1,10 +1,10 @@
 [project]
 name = "sof-poc1-n8n-fiches"
 version = "0.1.0"
-description = "Add your description here"
+description = "Fast API for expose 'surnet/alpine-node-wkhtmltopdf'"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "fastapi>=0.123.9",
-    "uvicorn[standard]>=0.38.0",
+    "fastapi>=0.124.0",
+    "uvicorn>=0.38.0",
 ]

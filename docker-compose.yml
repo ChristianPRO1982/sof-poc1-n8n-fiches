@@ -2,7 +2,6 @@ services:
   n8n:
     image: n8nio/n8n:1.121.3
     container_name: n8n
-    profiles: ["n8n"]
     ports:
       - "5678:5678"
     environment:
@@ -33,7 +32,19 @@ services:
       - ./n9n_files:/files
     restart: unless-stopped
 
-  wkhtmltopdf:
-    image: gotenberg/gotenberg
-    container_name: wkhtmltopdf
+  html2pdf:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: html2pdf
+    ports:
+      - "8000:8000"
     restart: unless-stopped
+
+  wkhtmltopdf:
+    image: surnet/alpine-node-wkhtmltopdf
+    container_name: wkhtmltopdf
+    profiles: ["wkhtmltopdf"]
+    restart: unless-stopped
+    # ports:
+    #   - "3000:3000"
