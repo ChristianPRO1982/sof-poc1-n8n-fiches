@@ -115,7 +115,7 @@ graph LR
   chat <--> llm
   chat -.->|👁️| URLs_json
 
-  am ~~~ healthcheck
+  am ~~~ html_to_pdf
 
   classDef website fill:#4A90E2, stroke:#2E5C8A, color:#FFF;
   classDef n8n fill:#e48, stroke:#724, color:#FFF;
